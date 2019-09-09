@@ -2,6 +2,8 @@
 
 include('includes/header.php'); 
 error_reporting(E_ALL);
+
+
 if (isset($_POST['submit'])) {
     $createBranchs = $Branchset->insertBranch($_POST);
 }
@@ -11,7 +13,7 @@ $staffList = $db->link->query($staffList);
 
 //	$query = "SELECT * FROM  tbl_branch WHERE branch_status=1";
             
-	$query = "SELECT tbl_branch.*, branch_managers.manager_id FROM  tbl_branch LEFT JOIN branch_managers ON tbl_branch.branch_id = branch_managers.branch_id WHERE branch_status=1";
+	$query = "SELECT tbl_branch.*, branch_managers.manager_id FROM  tbl_branch LEFT JOIN branch_managers ON tbl_branch.branch_id = branch_managers.branch_id WHERE branch_status=1 ORDER BY tbl_branch.branch_id DESC LIMIT 5";
     $selectcourcom = $Courcompanyset->selectcourComp($query);
     
     function getManagerName($managerId){
@@ -41,7 +43,7 @@ $staffList = $db->link->query($staffList);
             <div class="row">
                 <div class="col-md-12">
 
-                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" role="form" id="form_cons_booking" method="POST">
+                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" role="form" id="create_branch" method="POST">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="errorHandler alert alert-danger no-display">

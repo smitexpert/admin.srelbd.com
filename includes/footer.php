@@ -187,15 +187,14 @@ $("#staff_form").on("submit", function(event) {
     var con = confirm("Are you sure?");
 
     if (con == 1) {
-		$(".loading-img").css("display", "block");
+        $(".loading-img").css("display", "block");
         $.ajax({
             url: "/lib/ajax.php",
             method: "POST",
             data: $('#staff_form').serialize(),
             success: function(data) {
                 if (data == 'donedone') {
-                    alert("User Creation Success");
-					$(".loading-img").css("display", "none");
+                    $(".loading-img").css("display", "none");
                     location.reload();
                 } else {
                     alert("Email already exist");
@@ -242,7 +241,7 @@ $('.status_btn').click(function() {
                     'btn_red');
             } else if (data == 1) {
                 $("#" + userId).closest('span.btn_red').removeClass('btn_red').addClass(
-                'btn_green');
+                    'btn_green');
             } else {
                 alert(data);
             }
@@ -358,7 +357,7 @@ $('.status_btn').click(function() {
                     'btn_red');
             } else if (data == 1) {
                 $("#" + userId).closest('span.btn_red').removeClass('btn_red').addClass(
-                'btn_green');
+                    'btn_green');
             } else {
                 alert(data);
             }
@@ -401,7 +400,7 @@ $('.status_btn').click(function() {
                     'btn_red');
             } else if (data == 1) {
                 $("#" + userId).closest('span.btn_red').removeClass('btn_red').addClass(
-                'btn_green');
+                    'btn_green');
             } else {
                 alert(data);
             }
@@ -411,6 +410,24 @@ $('.status_btn').click(function() {
 });
 		</script>
 
+		<?php
+}
+?>
+
+		<?php
+if($uri_parts[0] == '/branch_create.php'){       
+?>
+		<script>
+$("#create_branch").submit(function(event) {
+
+    var con = confirm("Are you sure?");
+
+    if (con === false) {
+        event.preventDefault();
+    }
+
+})
+		</script>
 		<?php
 }
 ?>
@@ -508,7 +525,7 @@ $(".editBranchBtn").click(function() {
                 $("#branchManager option[value='']").prop("selected", true);
             } else {
                 $("#branchManager option[value='" + result.manager_id + "']").prop("selected",
-                true);
+                    true);
             }
 
             $("#contact").val(result.branch_contact);
@@ -819,7 +836,7 @@ $("#add_product").click(function() {
             '" onfocusout= "check_min_price(event)"></td> <td class="grTotal" style = "text-align:right;" > ' +
             total_price +
             ' </td> <td style = "text-align:center;"><span class="remove_product" onclick="remove_product(event)">X</span></td> </tr>'
-            );
+        );
         total_product.push(product_id);
     }
 
@@ -1108,7 +1125,7 @@ $("#saleReturnShow").click(function() {
 
             if (result.reference_invoice != null && result.reference_invoice != "") {
                 $("#refInvoice").html('<span>Ref. Invoice: ' + result.reference_invoice +
-                '</span>');
+                    '</span>');
             }
 
             $("#printButton").prop("disabled", false);
@@ -1363,7 +1380,7 @@ $('.status_btn').click(function() {
                     'btn_red');
             } else if (data == 1) {
                 $("#" + userId).closest('span.btn_red').removeClass('btn_red').addClass(
-                'btn_green');
+                    'btn_green');
             } else {
                 alert(data);
             }
@@ -1859,7 +1876,7 @@ $('.status_btn').click(function() {
                     'btn_red');
             } else if (data == 1) {
                 $("#" + userId).closest('span.btn_red').removeClass('btn_red').addClass(
-                'btn_green');
+                    'btn_green');
             } else {
                 alert(data);
             }
@@ -1905,7 +1922,7 @@ $('.status_btn').click(function() {
                     'btn_red');
             } else if (data == 1) {
                 $("#" + userId).closest('span.btn_red').removeClass('btn_red').addClass(
-                'btn_green');
+                    'btn_green');
             } else {
                 alert(data);
             }
@@ -1951,7 +1968,7 @@ $('.status_btn').click(function() {
                     'btn_red');
             } else if (data == 1) {
                 $("#" + userId).closest('span.btn_red').removeClass('btn_red').addClass(
-                'btn_green');
+                    'btn_green');
             } else {
                 alert(data);
             }
@@ -2154,7 +2171,7 @@ $('.status_btn').click(function() {
                     'btn_red');
             } else if (data == 1) {
                 $("#" + userId).closest('span.btn_red').removeClass('btn_red').addClass(
-                'btn_green');
+                    'btn_green');
             } else {
                 alert(data);
             }

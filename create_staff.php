@@ -14,6 +14,10 @@ $db = new Database();
 $designationQuery = "SELECT * FROM user_rule WHERE status=1";    
 $ruleResult = $db->select($designationQuery);
 
+// $employeeList = "SELECT *FROM user  WHERE status = '1' ORDER BY id DESC LIMIT 5";
+$employeeList = "SELECT user.*, user_rule.ruleName FROM user INNER JOIN user_rule ON user.rule = user_rule.ruleId WHERE user.status = '1' ORDER BY user.id DESC LIMIT 5";
+$employeeListResult = $db->link->query($employeeList);
+
 
 //$query = "SELECT id FROM user ORDER BY id DESC LIMIT 1";
 //$result = $getUserId->select($query);
@@ -217,8 +221,55 @@ $creationMenuCount = $db->count($creationMenuQuery);
 
                 </div>
             </form>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- start: FORM VALIDATION 1 PANEL -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-external-link-square"></i>
+                            LAST 05 EMPLOYEES
+                        </div>
+
+                        <div class="panel-body">
+                            <table class="table table-striped table-bordered table-hover table-full-width" id="brnachtbl">
+
+                                <thead>
+                                    <tr>
+                                        <th>EMPLOYEE ID</th>
+                                        <th>NAME</th>
+                                        <th>DESIGNATION</th>
+                                        <th>EMAIL</th>
+                                        <th>CONTACT</th>
+                                        <th>JOINING DATE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                    <?php $i=0; if ($employeeListResult) { while ($row=$employeeListResult->fetch_assoc()) {
+                                          ?>
+                                    <tr>
+                                        <td><?php echo $row['userId']; ?></td>
+                                        <td><?php echo $row['name']; ?></td>
+                                        <td><?php echo $row['ruleName']; ?></td>
+                                        <td><?php echo $row['email']; ?></td>
+                                        <td><?php echo $row['contact1']; ?></td>
+                                        <td><?php echo $row['joining_date']; ?></td>
+                                    </tr>
+                                    <?php } } ?>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- end: FORM VALIDATION 1 PANEL -->
+            </div>
         </div>
     </div>
+    
 </div>
 <?php 
 include('includes/footer.php');
