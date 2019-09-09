@@ -229,6 +229,15 @@ if(Session::get('role') != 1){
             display: none;
         }
 
+        .loading-img {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            top: 15%;
+            text-align: center;
+            display: none;
+        }
+
         .loading-img img {
             margin-top: 8%;
             width: 120px;
@@ -543,6 +552,9 @@ if(Session::get('role') != 1){
                 <!-- end: TOP NAVIGATION MENU -->
             </div>
         </div>
+        <div class="loading-img">
+               <img src="img/loading.gif" alt="Plaese Wait">                
+            </div>
         <!-- end: TOP NAVIGATION CONTAINER -->
     </div>
     <!-- end: HEADER -->
