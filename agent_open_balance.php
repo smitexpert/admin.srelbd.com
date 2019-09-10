@@ -6,6 +6,8 @@ include('includes/header.php');
 
     //select agent balance from agent_ladger
     $select_opening_balance = "SELECT *FROM agent_ladger WHERE goods_description = 'Opening Balance' ORDER BY id DESC";
+    // $select_opening_balance = "SELECT agent_ladger.*, accounts.transaction_date FROM agent_ladger INNER JOIN accounts ON agent_ladger.money_receipt_no = accounts.money_receipt_no WHERE agent_ladger.goods_description = 'Opening Balance' ORDER BY agent_ladger.id DESC";
+
     $openingBalance = $db->link->query($select_opening_balance);
 
     $query_1 = "SELECT money_receipt_no FROM accounts ORDER BY id DESC LIMIT 1";
@@ -49,6 +51,24 @@ include('includes/header.php');
         $userName = $db->link->query($getUserName);
         $row = $userName->fetch_row();
         return $row[0];
+    }
+
+    function getClosingDate($agentId){
+        $agentId = $agentId;
+
+        $db = new Database();
+        $getAgentName = "SELECT name FROM agent WHERE id = '$agentId'";
+        $agentName = $db->link->query($getAgentName);
+        $row = $agentName->fetch_row();
+        $agentName = $row[0];
+
+        //select closing date from accounts
+        $closingDate = "SELECT transaction_date FROM accounts WHERE payer_name = '$agentName' AND description = 'as opening balance'";
+        $closingDate1 = $db->link->query($closingDate);
+        $row1 = $closingDate1->fetch_row();
+        $closingDate2 = $row1[0];
+
+        return $closingDate2;
     }
 
 ?>
@@ -184,7 +204,8 @@ include('includes/header.php');
                                         <th style="text-align:center" >AGENT NAME</th>
                                         <th style="text-align:center" >OPENING BALANCE</th>
                                         <th style="text-align:center" >CONTACT</th>
-                                        <th style="text-align:center" >ENTRY DATE</th>
+                                        <th style="text-align:center" >CLOSING DATE</th>
+                                        <th style="text-align:center" >ENTRY TIME</th>
                                         <th style="text-align:center" >ENTRY BY</th>
                                     </tr>
                                 </thead>
@@ -211,6 +232,7 @@ include('includes/header.php');
                                         }
                                         ?>
                                         <td style="text-align:center" ><?php echo getAgentContact($row['agent_id']); ?></td>
+                                        <td style="text-align:center" ><?php echo getClosingDate($row['agent_id']); ?></td>
                                         <td style="text-align:center" ><?php echo $row['entry_date']; ?></td>
                                         <td style="text-align:center" ><?php echo getUserName($row['entry_by']); ?></td>                                        
                                     </tr>

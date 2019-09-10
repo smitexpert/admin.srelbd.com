@@ -69,7 +69,7 @@ if(isset($_POST['agentOpenBalanceAD'])){
         }
         
         //insert into accounts
-        $insert_into_accounts = "INSERT INTO accounts (money_receipt_no, payer_name, amount, description, receiver_id, transaction_type, transaction_date, reference_no) VALUES ('$moneyReceiptNoAD', '$agentName', '$amount', 'as opening balance', '$userStatusId','credit', '$create_date', '$referenceno')";
+        $insert_into_accounts = "INSERT INTO accounts (money_receipt_no, payer_name, amount, description, receiver_id, transaction_type, transaction_date, reference_no) VALUES ('$moneyReceiptNoAC', '$agentName', '$amount', 'as opening balance', '$userStatusId','credit', '$create_date', '$referenceno')";
         $insert2 =$db->link->query($insert_into_accounts);
         }
         
