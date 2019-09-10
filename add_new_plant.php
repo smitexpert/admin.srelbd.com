@@ -4,7 +4,7 @@ error_reporting(E_ALL);
     $agentName = "SELECT *FROM agent ORDER BY name ASC";
     $agentName2 = $db->link->query($agentName);
 
-    $stafftName = "SELECT *FROM user where status = '1' ORDER BY name ASC";
+    $stafftName = "SELECT *FROM user where status = '1' ORDER BY userId ASC";
     $staffName2 = $db->link->query($stafftName);
 
     $query = "SELECT *FROM districts ORDER BY name ASC";
@@ -25,6 +25,16 @@ error_reporting(E_ALL);
 
     $lastPlantTableId = $row[0];
     $lastPlantId = $lastPlantTableId + 1;
+
+    function getDistrictName($disId){
+        $db = new Database();
+        $getLastId = "SELECT name FROM districts WHERE id = '$disId'";
+        $getId = $db->link->query($getLastId);
+        $row = $getId->fetch_row();
+
+        $result = $row[0];
+        return $result;
+    }
 
 
 ?>
@@ -58,7 +68,14 @@ error_reporting(E_ALL);
                                     <div class="panel panel-default">
                                         <div class="panel-heading bdOrange">
                                             <i class="fa fa-external-link-square"></i>ADD NEW BIO-GAS PLANT
-                                            <div class="panel-tools"><a class="btn btn-xs btn-link panel-collapse collapses" href="#"></a><a class="btn btn-xs btn-link panel-config" href="#panel-config" data-toggle="modal"><i class="fa fa-wrench"></i></a><a class="btn btn-xs btn-link panel-refresh" href="#"><i class="fa fa-refresh"></i></a><a class="btn btn-xs btn-link panel-expand" href="#"><i class="fa fa-resize-full"></i></a></div>
+                                            <div class="panel-tools"><a
+                                                    class="btn btn-xs btn-link panel-collapse collapses" href="#"></a><a
+                                                    class="btn btn-xs btn-link panel-config" href="#panel-config"
+                                                    data-toggle="modal"><i class="fa fa-wrench"></i></a><a
+                                                    class="btn btn-xs btn-link panel-refresh" href="#"><i
+                                                        class="fa fa-refresh"></i></a><a
+                                                    class="btn btn-xs btn-link panel-expand" href="#"><i
+                                                        class="fa fa-resize-full"></i></a></div>
                                         </div>
 
                                         <div class="panel-body borderOrange">
@@ -69,7 +86,8 @@ error_reporting(E_ALL);
                                                             <label class="control-label">
                                                                 Plant Date <span class="symbol required"></span>
                                                             </label>
-                                                            <input type="date" required class="form-control" name="plantDate" id="plantDate" value="">
+                                                            <input type="date" required class="form-control"
+                                                                name="plantDate" id="plantDate" value="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -79,7 +97,8 @@ error_reporting(E_ALL);
                                                             <label class="control-label">
                                                                 Plant ID <span class="symbol required"></span>
                                                             </label>
-                                                            <input type="text" class="form-control" name="plantId" id="plantId" value="<?= $lastPlantId; ?>" required>
+                                                            <input type="text" class="form-control" name="plantId"
+                                                                id="plantId" value="<?= $lastPlantId; ?>" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-2">
@@ -87,7 +106,8 @@ error_reporting(E_ALL);
                                                             <label class="control-label">
                                                                 Disbursement No.
                                                             </label>
-                                                            <input type="text" class="form-control" name="disbursementNo" id="disbursementNo" value="">
+                                                            <input type="text" class="form-control"
+                                                                name="disbursementNo" id="disbursementNo" value="">
                                                         </div>
                                                     </div>
 
@@ -97,7 +117,9 @@ error_reporting(E_ALL);
                                                             <label class="control-label">
                                                                 Plant Owner Name <span class="symbol required"></span>
                                                             </label>
-                                                            <input type="text" required class="form-control" name="plantOwnerName" id="plantOwnerName" placeholder="owner of plant">
+                                                            <input type="text" required class="form-control"
+                                                                name="plantOwnerName" id="plantOwnerName"
+                                                                placeholder="owner of plant">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-2">
@@ -121,7 +143,8 @@ error_reporting(E_ALL);
                                                             <label class="control-label">
                                                                 Contact No. <span class="symbol required"></span>
                                                             </label>
-                                                            <input type="text" required class="form-control" name="contact" id="contact">
+                                                            <input type="text" required class="form-control"
+                                                                name="contact" id="contact">
                                                         </div>
                                                     </div>
 
@@ -132,12 +155,15 @@ error_reporting(E_ALL);
                                                             <label class="control-label">
                                                                 District
                                                             </label>
-                                                            <select name="district" id="district" class="form-control selectpicker" data-show-subtext="true" data-live-search="true">
+                                                            <select name="district" id="district"
+                                                                class="form-control selectpicker"
+                                                                data-show-subtext="true" data-live-search="true">
                                                                 <option>--</option>
                                                                 <?php
                                                                         while($row = $district->fetch_assoc()){
                                                                         ?>
-                                                                <option value="<?php echo $row['id']?>"><?php echo $row['name']?></option>
+                                                                <option value="<?php echo $row['id']?>">
+                                                                    <?php echo $row['name']?></option>
                                                                 <?php
                                                                         }
                                                                         ?>
@@ -150,12 +176,15 @@ error_reporting(E_ALL);
                                                             <label class="control-label">
                                                                 Police Station
                                                             </label>
-                                                            <select name="policeStation" id="policeStation" class="form-control selectpicker" data-show-subtext="true" data-live-search="true">
+                                                            <select name="policeStation" id="policeStation"
+                                                                class="form-control selectpicker"
+                                                                data-show-subtext="true" data-live-search="true">
                                                                 <option value="">--</option>
                                                                 <?php
                                                                         while($row = $policeStation->fetch_assoc()){
                                                                         ?>
-                                                                <option value="<?php echo $row['id']?>"><?php echo $row['name']?></option>
+                                                                <option value="<?php echo $row['id']?>">
+                                                                    <?php echo $row['name']?></option>
                                                                 <?php
                                                                         }
                                                                         ?>
@@ -168,7 +197,8 @@ error_reporting(E_ALL);
                                                             <label class="control-label">
                                                                 Union
                                                             </label>
-                                                            <input type="text" class="form-control" name="union" id="union">
+                                                            <input type="text" class="form-control" name="union"
+                                                                id="union">
                                                         </div>
                                                     </div>
 
@@ -177,7 +207,8 @@ error_reporting(E_ALL);
                                                             <label class="control-label">
                                                                 Village
                                                             </label>
-                                                            <input type="text" class="form-control" name="village" id="village">
+                                                            <input type="text" class="form-control" name="village"
+                                                                id="village">
                                                         </div>
                                                     </div>
 
@@ -186,7 +217,8 @@ error_reporting(E_ALL);
                                                             <label class="control-label">
                                                                 Others
                                                             </label>
-                                                            <input type="text" class="form-control" name="others" id="others">
+                                                            <input type="text" class="form-control" name="others"
+                                                                id="others">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-2">
@@ -194,7 +226,8 @@ error_reporting(E_ALL);
                                                             <label class="control-label">
                                                                 Plant Status <span class="symbol required"></span>
                                                             </label>
-                                                            <select name="plantStatus" id="plantStatus" class="form-control" data-show-subtext="true">
+                                                            <select name="plantStatus" id="plantStatus"
+                                                                class="form-control" data-show-subtext="true">
                                                                 <option value="1">Under Construction</option>
                                                                 <option value="2">Report Submitted</option>
                                                                 <option value="3" selected>Completed</option>
@@ -208,7 +241,9 @@ error_reporting(E_ALL);
                                                             <label class="control-label">
                                                                 Plant Assigned By <span class="symbol required"></span>
                                                             </label>
-                                                            <select name="plantAssignBy" id="plantAssignByChange" class="form-control" data-show-subtext="false" data-live-search="false" required>
+                                                            <select name="plantAssignBy" id="plantAssignByChange"
+                                                                class="form-control" data-show-subtext="false"
+                                                                data-live-search="false" required>
                                                                 <option value="" selected>--</option>
                                                                 <option value="agent">Agent</option>
                                                                 <option value="companyStaff">Company Staff</option>
@@ -221,15 +256,19 @@ error_reporting(E_ALL);
                                                         <div class="col-md-3">
                                                             <div class="form-group" id="selectPlantAssignee">
                                                                 <label class="control-label">
-                                                                    Select Agent Name <span class="symbol required"></span>
+                                                                    Select Agent Name <span
+                                                                        class="symbol required"></span>
                                                                 </label>
-                                                                <select name="agentName2" id="agentName" class="form-control selectpicker" data-show-subtext="true" data-live-search="true">
+                                                                <select name="agentName2" id="agentName"
+                                                                    class="form-control selectpicker"
+                                                                    data-show-subtext="true" data-live-search="true">
                                                                     <option value="">--</option>
 
                                                                     <?php
                                                                         while($row = $agentName2->fetch_assoc()){
                                                                         ?>
-                                                                    <option value="<?php echo $row['id']?>"><?php echo $row['name']?></option>
+                                                                    <option value="<?php echo $row['id']?>">
+                                                                        <?php echo $row['name']?></option>
                                                                     <?php
                                                                         }
                                                                         ?>
@@ -239,9 +278,11 @@ error_reporting(E_ALL);
                                                         <div class="col-md-2">
                                                             <div class="form-group">
                                                                 <label class="control-label">
-                                                                    Offered Ammount <span class="symbol required"></span>
+                                                                    Offered Ammount <span
+                                                                        class="symbol required"></span>
                                                                 </label>
-                                                                <input type="text" class="form-control" name="offeredAmount_agent" id="offeredAmount_agent">
+                                                                <input type="text" class="form-control"
+                                                                    name="offeredAmount_agent" id="offeredAmount_agent">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -249,17 +290,21 @@ error_reporting(E_ALL);
                                                         <div class="col-md-2">
                                                             <div class="form-group" id="selectPlantAssignee">
                                                                 <label class="control-label">
-                                                                    Select Staff Name <span class="symbol required"></span>
+                                                                    Select Staff Name <span
+                                                                        class="symbol required"></span>
                                                                 </label>
-                                                                <select name="stafftName" id="stafftName" class="form-control selectpicker" data-show-subtext="true" data-live-search="true">
+                                                                <select name="stafftName" id="stafftName"
+                                                                    class="form-control selectpicker"
+                                                                    data-show-subtext="true" data-live-search="true">
                                                                     <option value="">--</option>
 
                                                                     <?php
                                                                         while($row = $staffName2->fetch_assoc()){
-                                                                            if($row['id'] == '1' or $row['id'] == '2')
+                                                                            if($row['id'] == '1')
                                                                                 continue;
                                                                         ?>
-                                                                    <option value="<?php echo $row['id']?>"><?php echo $row['name']?></option>
+                                                                    <option value="<?php echo $row['userId']?>">
+                                                                        <?php echo $row['name']?></option>
                                                                     <?php
                                                                         }
                                                                         ?>
@@ -269,9 +314,11 @@ error_reporting(E_ALL);
                                                         <div class="col-md-2">
                                                             <div class="form-group">
                                                                 <label class="control-label">
-                                                                    Offered Ammount <span class="symbol required"></span>
+                                                                    Offered Ammount <span
+                                                                        class="symbol required"></span>
                                                                 </label>
-                                                                <input type="text" class="form-control" name="offeredAmount_staff" id="offeredAmount_staff">
+                                                                <input type="text" class="form-control"
+                                                                    name="offeredAmount_staff" id="offeredAmount_staff">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -296,7 +343,8 @@ error_reporting(E_ALL);
                                                                 <label class="control-label">
                                                                     Enter Name <span class="symbol required"></span>
                                                                 </label>
-                                                                <input class="form-control" type="text" name="othersName" id="otherName" />
+                                                                <input class="form-control" type="text"
+                                                                    name="othersName" id="otherName" />
                                                             </div>
                                                         </div>
                                                         <div class="col-md-2">
@@ -304,7 +352,8 @@ error_reporting(E_ALL);
                                                                 <label class="control-label">
                                                                     Mobile No.
                                                                 </label>
-                                                                <input class="form-control" type="text" name="othersMobile" />
+                                                                <input class="form-control" type="text"
+                                                                    name="othersMobile" />
                                                             </div>
                                                         </div>
                                                         <div class="col-md-2">
@@ -312,12 +361,15 @@ error_reporting(E_ALL);
                                                                 <label class="control-label">
                                                                     District
                                                                 </label>
-                                                                <select name="district_others" id="district_others" class="form-control selectpicker" data-show-subtext="true" data-live-search="true">
+                                                                <select name="district_others" id="district_others"
+                                                                    class="form-control selectpicker"
+                                                                    data-show-subtext="true" data-live-search="true">
                                                                     <option value="">--</option>
                                                                     <?php
                                                                         while($row = $district2->fetch_assoc()){
                                                                         ?>
-                                                                    <option value="<?php echo $row['id']?>"><?php echo $row['name']?></option>
+                                                                    <option value="<?php echo $row['id']?>">
+                                                                        <?php echo $row['name']?></option>
                                                                     <?php
                                                                         }
                                                                         ?>
@@ -327,9 +379,12 @@ error_reporting(E_ALL);
                                                         <div class="col-md-2">
                                                             <div class="form-group">
                                                                 <label class="control-label">
-                                                                    Offered Ammount <span class="symbol required"></span>
+                                                                    Offered Ammount <span
+                                                                        class="symbol required"></span>
                                                                 </label>
-                                                                <input type="text" class="form-control" name="offeredAmount_others" id="offeredAmount_others">
+                                                                <input type="text" class="form-control"
+                                                                    name="offeredAmount_others"
+                                                                    id="offeredAmount_others">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -340,7 +395,8 @@ error_reporting(E_ALL);
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group connected-group">
-                                                <input class="btn btn-md btn-green btn-block" type="submit" name="submit" value="submit">
+                                                <input class="btn btn-md btn-green btn-block" type="submit"
+                                                    name="submit" value="submit">
                                             </div>
                                         </div>
                                     </div>
@@ -361,7 +417,8 @@ error_reporting(E_ALL);
                         </div>
 
                         <div class="panel-body">
-                            <table class="table table-striped table-bordered table-hover table-full-width" id="brnachtbl">
+                            <table class="table table-striped table-bordered table-hover table-full-width"
+                                id="brnachtbl">
 
                                 <thead>
                                     <tr>
@@ -371,7 +428,6 @@ error_reporting(E_ALL);
                                         <th>contact_no</th>
                                         <th>district</th>
                                         <th>assignee_type</th>
-                                        <th>assigned_by</th>
                                         <th>offered_amount</th>
                                         <th>entry_date</th>
                                         <th>Status</th>
@@ -391,9 +447,8 @@ error_reporting(E_ALL);
                                         <td><?php echo $row['plant_no']; ?></td>
                                         <td><?php echo $row['plant_owner_name']; ?></td>
                                         <td><?php echo $row['contact_no']; ?></td>
-                                        <td><?php echo $row['district']; ?></td>
+                                        <td><?php echo getDistrictName($row['district']); ?></td>
                                         <td><?php echo $row['assignee_type']; ?></td>
-                                        <td><?php echo $row['assigned_by']; ?></td>
                                         <td><?php echo $row['offered_amount']; ?></td>
 
                                         <td><?php echo $row['entry_date']; ?></td>

@@ -146,8 +146,36 @@ if(isset($_POST['plantDate'])){
         $row = $getName->fetch_row();
         
         $agentName = $row[0];
-
+                
+        $add_to_acounts = "INSERT INTO accounts (reference_no, 	money_receipt_no, payer_name, amount, description, receiver_id, transaction_type, transaction_date) VALUES ('$plantId','$moneyReceiptNo_debit', '$agentName', '$offeredAmount', '$goods_description', '$user','debit', '$create_date')";
+    
+        $add_to_accounts = $db->link->query($add_to_acounts);
         
+//        if($add_to_acounts){            
+//        echo "accounts->".$add_to_acounts."\n";
+//        }else{
+//            echo $db->link->error;
+//        }
+if($add_to_accounts != true){
+    echo $db->link->error;
+}
+    }
+
+    //if staff assigned a plant then
+    if($plantAssignBy == "companyStaff"){
+        $add_agent_plant = "INSERT INTO staff_ladger (money_receipt_no, staff_id, transaction_type, plant_no, goods_description, amount, entry_by, status) VALUE ('$moneyReceiptNo_credit', '$Name', '$transaction_type', '$plantId', '$goods_description', '$offeredAmount', '$user','$status')";  
+        
+        $add_agent_plant = $db->link->query($add_agent_plant);
+        if($add_agent_plant != true){
+    echo $db->link->error;
+}
+        //get agent name from agent table
+        $getAgentName = "SELECT name FROM user WHERE  userId = '$Name'";
+        $getName = $db->link->query($getAgentName);
+        $row = $getName->fetch_row();
+        
+        $agentName = $row[0];
+                
         $add_to_acounts = "INSERT INTO accounts (reference_no, 	money_receipt_no, payer_name, amount, description, receiver_id, transaction_type, transaction_date) VALUES ('$plantId','$moneyReceiptNo_debit', '$agentName', '$offeredAmount', '$goods_description', '$user','debit', '$create_date')";
     
         $add_to_accounts = $db->link->query($add_to_acounts);

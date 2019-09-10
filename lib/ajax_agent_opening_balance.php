@@ -26,13 +26,16 @@ if($userStatus == 0){
 
 //start code for add new plant
 
-if(isset($_POST['agentOpenBalance'])){    
+if(isset($_POST['agentOpenBalanceAD'])){    
 
-    $moneyReceiptNo = $_POST['agentOpenBalance'];   
+    $moneyReceiptNoAD = $_POST['agentOpenBalanceAD']; 
+    $moneyReceiptNoAC = $_POST['agentOpenBalanceAC'];   
     $create_date = $_POST['create_date'];   
     $referenceno = $_POST['referenceno'];   
     $agentId = $_POST['agentName'];   
     $amount = $_POST['amount']; 
+
+    $transectionType = $_POST['transectionType'];
     
     //GET payer name from agent table
     $getAgentName = "SELECT name from agent WHERE id = '$agentId'";
@@ -41,20 +44,34 @@ if(isset($_POST['agentOpenBalance'])){
         $row = $getName->fetch_row();
         $agentName = $row[0];
         
-        //echo $agentName;
-        //insert into agent accounts
-        $insert_agent_account = "INSERT INTO agent_ladger (money_receipt_no, agent_id, transaction_type, goods_description, amount, entry_by, status) VALUES('$moneyReceiptNo', '$agentId', 'credit', 'Opening Balance', '$amount', '$userStatusId', '1')";
+        if($transectionType == 1){
+            //insert into agent accounts
+        $insert_agent_account = "INSERT INTO agent_ladger (money_receipt_no, agent_id, transaction_type, goods_description, amount, entry_by, status) VALUES('$moneyReceiptNoAD', '$agentId', 'credit', 'Opening Balance', '$amount', '$userStatusId', '1')";
         $insert = $db->link->query($insert_agent_account);
         
         if($insert){
-            echo "Kaj HOise";
+            echo 1;
         }else{
             echo $db->link->error;
         }
         
         //insert into accounts
-        $insert_into_accounts = "INSERT INTO accounts (money_receipt_no, payer_name, amount, description, receiver_id, transaction_type, transaction_date, reference_no) VALUES ('$moneyReceiptNo', '$agentName', '$amount', 'as opening balance', '$userStatusId','debit', '$create_date', '$referenceno')";
+        $insert_into_accounts = "INSERT INTO accounts (money_receipt_no, payer_name, amount, description, receiver_id, transaction_type, transaction_date, reference_no) VALUES ('$moneyReceiptNoAD', '$agentName', '$amount', 'as opening balance', '$userStatusId','debit', '$create_date', '$referenceno')";
         $insert2 =$db->link->query($insert_into_accounts);
+        }else{
+            $insert_agent_account = "INSERT INTO agent_ladger (money_receipt_no, agent_id, transaction_type, goods_description, amount, entry_by, status) VALUES('$moneyReceiptNoAC', '$agentId', 'debit', 'Opening Balance', '$amount', '$userStatusId', '1')";
+        $insert = $db->link->query($insert_agent_account);
+        
+        if($insert){
+            echo 1;
+        }else{
+            echo $db->link->error;
+        }
+        
+        //insert into accounts
+        $insert_into_accounts = "INSERT INTO accounts (money_receipt_no, payer_name, amount, description, receiver_id, transaction_type, transaction_date, reference_no) VALUES ('$moneyReceiptNoAD', '$agentName', '$amount', 'as opening balance', '$userStatusId','credit', '$create_date', '$referenceno')";
+        $insert2 =$db->link->query($insert_into_accounts);
+        }
         
         if($insert2){
             echo 1;

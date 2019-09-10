@@ -26,7 +26,8 @@ include('includes/header.php');
 
     $dayMonthYear = date('d').date('m').date('y');
 
-	$moneyReceiptNumber = "AD".$dayMonthYear.$last_serial;
+	$moneyReceiptNumberAC = "AC".$dayMonthYear.$last_serial;
+	$moneyReceiptNumberAD = "AD".$dayMonthYear.$last_serial;
 
     function getAgentName($id){
         $db = new Database();
@@ -89,7 +90,8 @@ include('includes/header.php');
                                                                 <div class="col-md-4">
                                                                     <div class="form-group">
                                                                         <label for="">Money Receipt No.:<span class="symbol required"></span></label>
-                                                                        <input type="text" class="form-control" value="<?=$moneyReceiptNumber ?>" name="agentOpenBalance" readonly>
+                                                                        <input type="text" class="form-control" value="<?=$moneyReceiptNumberAD ?>" name="agentOpenBalanceAD" id="agentOpenBalance" readonly>
+                                                                        <input type="hidden" class="form-control" value="<?=$moneyReceiptNumberAC ?>" name="agentOpenBalanceAC" id="agentOpenBalance" readonly>
                                                                     </div>
                                                                 </div>
 
@@ -130,6 +132,15 @@ include('includes/header.php');
                                                                     <div class="form-group">
                                                                         <label for="">Amount(BDT):<span class="symbol required"></span></label>
                                                                         <input type="number" step="0.0001" class="form-control" name="amount" id="amount" min="0" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label for="">Debit/Credit:<span class="symbol required"></span></label>
+                                                                        <select name="transectionType" id="transectionType" class="form-control selectpicker"  data-show-subtext="true" data-live-search="false">
+                                                                            <option value="1">Positive Balance</option>
+                                                                            <option value="2">Negative Balance</option>                                                                           
+                                                                        </select>
                                                                     </div>
                                                                 </div>
 
@@ -182,11 +193,23 @@ include('includes/header.php');
 
                                     <?php $i=0; if ($openingBalance) { 
                                         while ($row=$openingBalance->fetch_assoc()) {
-                                            $i++; ?>
+                                            $i++; 
+                                            $transaction_type = $row['transaction_type'];
+                                            ?>
                                     <tr>
                                         <td class="center"><?php echo $i; ?></td>
                                         <td><?php echo getAgentName($row['agent_id']); ?></td>
+                                        <?php
+                                        if($transaction_type == 'credit'){ 
+                                            ?>                                           
                                         <td style="text-align:right"><?php echo number_format($row['amount'],2); ?></td>
+                                        <?php 
+                                        }else{
+                                            ?>
+                                            <td style="text-align:right; color:red"><?php echo number_format(-$row['amount'],2); ?></td>
+                                            <?php
+                                        }
+                                        ?>
                                         <td style="text-align:center" ><?php echo getAgentContact($row['agent_id']); ?></td>
                                         <td style="text-align:center" ><?php echo $row['entry_date']; ?></td>
                                         <td style="text-align:center" ><?php echo getUserName($row['entry_by']); ?></td>                                        

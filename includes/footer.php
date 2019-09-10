@@ -165,6 +165,7 @@ $("#joinDate").datepicker({
 
 $("#joinDate").change(function(e) {
     //                var joiningDate = new Date($("#joinDate").val());
+    $(".loading-img").css("display", "block");
     var joiningDate2 = $("#joinDate").val();
 
     $.ajax({
@@ -176,11 +177,11 @@ $("#joinDate").change(function(e) {
         success: function(result) {
             $("#userid").val(result);
             $("#userid2").val(result);
+            $(".loading-img").css("display", "none");
         }
     });
-
-
 });
+
 $("#staff_form").on("submit", function(event) {
     event.preventDefault();
 
@@ -297,9 +298,9 @@ $('.editStaffBtn').click(function() {
 
 $("#updateStaffInformation").submit(function(event) {
     event.preventDefault();
-
     var con = confirm("Are you sure ?");
     if (con) {
+        $(".loading-img").css("display", "block");
         var old_staff_info = $("#updateStaffInformation").serialize();
 
         $.ajax({
@@ -307,11 +308,11 @@ $("#updateStaffInformation").submit(function(event) {
             method: "POST",
             data: old_staff_info,
             success: function(result_staff) {
-                location.reload();
                 $("#aleret_message").slideDown(500, function() {
                     $("#aleret_message").css("display", "block");
                 });
-
+                location.reload();
+                $(".loading-img").css("display", "none");
             }
         })
     }
@@ -541,19 +542,25 @@ $(".editBranchBtn").click(function() {
     //Branch Update code
     $("#updateBranchInformation").submit(function(event) {
         event.preventDefault();
+        var con = confirm("Are you sure?");
 
-        //                    console.log($(this).serialize());
-        $.ajax({
-            url: "/lib/ajax.php",
-            method: "POST",
-            data: $(this).serialize(),
-            success: function(result) {
-                //                            console.log(result);
-                location.reload();
-            }
+        if (con == 1) {
+            $(".loading-img").css("display", "block");
+            //                    console.log($(this).serialize());
+            $.ajax({
+                url: "/lib/ajax.php",
+                method: "POST",
+                data: $(this).serialize(),
+                success: function(result) {
+                    //                            console.log(result);
+                    $(".loading-img").css("display", "none");
+                    location.reload();
+                }
 
 
-        })
+            })
+        }
+
     })
 
 
@@ -684,28 +691,30 @@ $("#buy_date").datepicker({
 //		    }
 
 $("#product_entry").submit(function() {
-    event.preventDefault();
+    var con = confirm("Are you sure?");
+    if (con == 1) {
+        $(".loading-img").css("display", "block");
+        event.preventDefault();
 
-    var newProduct = $("#product_entry").serialize();
+        var newProduct = $("#product_entry").serialize();
 
-    $.ajax({
-        url: "lib/ajax_productEntry.php",
-        method: "POST",
-        data: newProduct,
-        success: function(sumbit_result) {
-            //                         console.log(sumbit_result);
-            if (sumbit_result == 1) {
-                alert("insert success!");
-                location.reload();
-            } else {
-                alert("Not submitted");
+        $.ajax({
+            url: "lib/ajax_productEntry.php",
+            method: "POST",
+            data: newProduct,
+            success: function(sumbit_result) {
+                //                         console.log(sumbit_result);
+                if (sumbit_result == 1) {
+                    $(".loading-img").css("display", "none");
+                    location.reload();
+                } else {
+                    $(".loading-img").css("display", "none");
+                    alert("Not submitted");
+                }
+                //                        console.log(sumbit_result);
             }
-            //                        console.log(sumbit_result);
-        }
-
-    })
-
-
+        })
+    }
 })
 		</script>
 		<?php
@@ -1301,6 +1310,23 @@ $("#printButton").click(function() {
 		<?php
 }
 ?>
+
+		<?php
+	if($uri_parts[0] == '/view_sale.php'){
+		?>
+		<script>
+$(document).ready(function() {
+    $('#viewAllSaleTable').DataTable({
+        "order": [
+            [0, "desc"]
+        ]
+    });
+});
+		</script>
+
+		<?php
+	}
+?>
 		<!--End All Stock Management Code here-->
 
 		<!--Start All Agent Management Code here-->
@@ -1468,24 +1494,26 @@ $("#agent_opening_balance").on("submit", function(event) {
     event.preventDefault();
 
     var agent_open_balance = $("#agent_opening_balance").serialize();
-    console.log(agent_open_balance);
+    // console.log(agent_open_balance);
     var agentName = $("#agentName").find(":selected").val();
 
     if (agentName != "") {
         var con = confirm("Are You Sure?");
-        //		            console.log(agentName);
+        $(".loading-img").css("display", "block");
         if (con) {
             $.ajax({
                 url: "lib/ajax_agent_opening_balance.php",
                 method: "POST",
                 data: agent_open_balance,
                 success: function(result) {
-                    if (result) {
+                    // console.log(result);
+                    if (result == 11) {
                         // alert("insert success !");
+                        $(".loading-img").css("display", "none");
                         location.reload();
                         //  console.log("If part " + result);
                     } else {
-                        //  console.log("Else part " + result);
+                         console.log("Else part " + result);
                     }
                 }
             });
@@ -1494,6 +1522,13 @@ $("#agent_opening_balance").on("submit", function(event) {
         alert("Please select agent name.");
     }
 });
+
+// $("#transectionType").change(function(){
+//     var $transectionType = $(this).find(":selected").val();
+//     var $agentOpenBalance = $("#agentOpenBalance").val();
+//     console.log($transectionType);
+//     console.log($agentOpenBalance);
+// })
 
 $("#agentName").change(function(event) {
     var agentName = $(this).find(":selected").val();
@@ -1532,30 +1567,27 @@ if($uri_parts[0] == '/add_new_plant.php'){
 $("#plantAssignByChange").change(function() {
     var plantAssignBy = $(this).find(":selected").val();
 
-    //                console.log(plantAssignBy);
-
-
-    //		            $("#agentName option[value='']").prop("selected",true);
-    //		            $("#customerName").val("");
-
-    //
+    $(".loading-img").css("display", "block");
     if (plantAssignBy == "agent") {
         $("#agentSection").css("display", "block");
         $("#staffSection").css("display", "none");
         $("#selfSection").css("display", "none");
         $("#othersSection").css("display", "none");
         $("#offeredAmount_agent").prop("required", true);
+        $(".loading-img").css("display", "none");
     } else if (plantAssignBy == "companyStaff") {
         $("#agentSection").css("display", "none");
         $("#staffSection").css("display", "block");
         $("#selfSection").css("display", "none");
         $("#othersSection").css("display", "none");
         $("#offeredAmount_staff").prop("required", true);
+        $(".loading-img").css("display", "none");
     } else if (plantAssignBy == "self") {
         $("#agentSection").css("display", "none");
         $("#staffSection").css("display", "none");
         $("#selfSection").css("display", "none");
         $("#othersSection").css("display", "none");
+        $(".loading-img").css("display", "none");
     } else if (plantAssignBy == "others") {
         $("#agentSection").css("display", "none");
         $("#staffSection").css("display", "none");
@@ -1563,14 +1595,14 @@ $("#plantAssignByChange").change(function() {
         $("#othersSection").css("display", "block");
         $("#otherName").prop("required", true);
         $("#offeredAmount_others").prop("required", true);
+        $(".loading-img").css("display", "none");
     } else {
         $("#agentSection").css("display", "none");
         $("#staffSection").css("display", "none");
         $("#selfSection").css("display", "none");
         $("#othersSection").css("display", "none");
-
+        $(".loading-img").css("display", "none");
     }
-    //		        enable_submit_button();
 });
 
 
@@ -1578,13 +1610,14 @@ $("#add_new_plant2").submit(function(event) {
     event.preventDefault();
     var type = $("#plantAssignByChange").find(":selected").val();
 
-    //                console.log(type);
+    console.log(type);
     if (type == "agent") {
         var Name = $("#agentName").find(":selected").val();
         if (Name == "") {
             alert("Plaes select Agent Name!");
         }
         if (Name != "") {
+            $(".loading-img").css("display", "block");
             $.ajax({
                 url: "/lib/ajax_add_new_plant.php",
                 method: "POST",
@@ -1593,10 +1626,11 @@ $("#add_new_plant2").submit(function(event) {
                     //                                console.log(plantResult);
                     if (plantResult == 1) {
                         alert("Plant Entry Success !");
+                        $(".loading-img").css("display", "none");
                         location.reload();
-                    } else {
-                        alert("Plant Entry not Success !");
-                    }
+                    }else{
+                    console.log(plantResult);
+                }
                 }
             });
         }
@@ -1608,6 +1642,7 @@ $("#add_new_plant2").submit(function(event) {
             alert("Plaes select Staff Name!");
         }
         if (Name != "") {
+            $(".loading-img").css("display", "block");
             $.ajax({
                 url: "/lib/ajax_add_new_plant.php",
                 method: "POST",
@@ -1615,14 +1650,18 @@ $("#add_new_plant2").submit(function(event) {
                 success: function(plantResult) {
                     if (plantResult == 1) {
                         alert("Plant Entry Success !");
+                        $(".loading-img").css("display", "none");
                         location.reload();
-                    }
+                    }else{
+                    console.log(plantResult);
+                }
                 }
             });
         }
     }
 
     if (type == "self" || type == "others") {
+        $(".loading-img").css("display", "block");
         $.ajax({
             url: "/lib/ajax_add_new_plant.php",
             method: "POST",
@@ -1630,7 +1669,10 @@ $("#add_new_plant2").submit(function(event) {
             success: function(plantResult) {
                 if (plantResult == 1) {
                     alert("Plant Entry Success !");
+                    $(".loading-img").css("display", "none");
                     location.reload();
+                }else{
+                    console.log(plantResult);
                 }
             }
         });
@@ -1641,8 +1683,7 @@ $("#add_new_plant2").submit(function(event) {
 $("#district").change(function(e) {
     var districtId = $(this).find(":selected").val();
 
-    //                console.log(districtId);
-
+    $(".loading-img").css("display", "block");
     $.ajax({
         url: "/lib/ajax.php",
         method: "POST",
@@ -1655,6 +1696,7 @@ $("#district").change(function(e) {
             $("#policeStation").find("*").remove();
             $("#policeStation").append(data);
             $(".selectpicker").selectpicker('refresh');
+            $(".loading-img").css("display", "none");
         }
     });
 });
