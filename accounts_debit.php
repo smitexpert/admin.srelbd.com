@@ -102,8 +102,8 @@ if (isset($_POST['referenceno'])) {
                                                                 </div>
                                                                    <div class="col-md-4">
                                                                     <div class="form-group">
-                                                                        <label for="">Reference No:<span class="symbol required"></span></label>
-                                                                        <input type="text" class="form-control" name="referenceno" id="referenceno" required>
+                                                                        <label for="">Reference No:</label>
+                                                                        <input type="text" class="form-control" name="referenceno" id="referenceno">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4">
