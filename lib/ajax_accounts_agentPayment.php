@@ -55,7 +55,7 @@ if(isset($_POST['money_receipt_no'])){
     
     //insert into accounts
     if($money_receipt_no){
-        $insert_accounts = "INSERT INTO accounts (serial, reference_no, payer_name, amount, description, payment_mode, cheque_no, bank_name, mobile_no, mobile_account_no, transaction_no, mobile_bank_name,  receiver_id, transaction_type, transaction_date) VALUES ('$money_receipt_no', '$reference_no', '$agentName', '$agent_amount', 'agent payment', '$payment_mode', '$cheque_no', '$bank_name', '$mobile_no', '$mobile_account_no', '$transaction_no', '$mobile_bank_name','$userStatusId', 'debit','$agent_date')";
+        $insert_accounts = "INSERT INTO accounts (money_receipt_no, reference_no, payer_name, amount, description, payment_mode, cheque_no, bank_name, mobile_no, mobile_account_no, transaction_no, mobile_bank_name,  receiver_id, transaction_type, transaction_date) VALUES ('$money_receipt_no', '$reference_no', '$agentName', '$agent_amount', 'agent payment', '$payment_mode', '$cheque_no', '$bank_name', '$mobile_no', '$mobile_account_no', '$transaction_no', '$mobile_bank_name','$userStatusId', 'debit','$agent_date')";
     
         $query = $db->link->query($insert_accounts);
         
@@ -76,7 +76,7 @@ if(isset($_POST['money_receipt_no'])){
 
 if(isset($_POST['getMoneyreceiptNo'])){
     
-    $query_1 = "SELECT serial FROM accounts order by id DESC limit 1";
+    $query_1 = "SELECT money_receipt_no FROM accounts order by id DESC limit 1";
     $result_1 = $db->link->query($query_1);
 
     if($result_1->num_rows > 0){
