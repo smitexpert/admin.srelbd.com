@@ -2,7 +2,7 @@
 include('includes/header.php');
 	// $query = "SELECT s.*,d.designation_title FROM tbl_stuff as s,tbl_designation as d
 	//  WHERE s.stuff_designation = d.id AND stuff_status=1 ORDER BY created_at DESC";
-	$query = "SELECT user.*, user_rule.ruleName FROM user LEFT JOIN user_rule ON user.rule = user_rule.ruleId WHERE rule != '1' ORDER BY userId DESC";
+	$query = "SELECT user.*, user_rule.ruleName FROM user LEFT JOIN user_rule ON user.rule = user_rule.ruleId WHERE rule != '1' ORDER BY joining_date ASC";
     $result = $db->select($query);
 ?>
 		<!-- start: MAIN CONTAINER -->
@@ -32,6 +32,7 @@ include('includes/header.php');
                                                 <th>Designation</th>
                                                 <th>Email</th>
                                                 <th>Contact</th>
+                                                <th>Joining Date</th>
                                                 <th>Reg Date</th>
                                                 <th>Action</th>
                                             </tr>
@@ -65,6 +66,7 @@ include('includes/header.php');
                                                     <td><?php echo $row['ruleName'] ?></td>
                                                     <td><?php echo $row['email'] ?></td>
                                                     <td><?php echo $row['contact1'] ?></td>
+                                                    <td><?php echo $row['joining_date']?></td>
                                                     <td><?php echo $row['createDate'] ?></td>
                                                     <td><span class="btn-my <?php echo $btn_color; ?>">
                                                         <button id="<?php echo $row['userId'] ?>" class="status_btn" <?php echo $btn_disabled; ?> >

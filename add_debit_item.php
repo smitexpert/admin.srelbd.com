@@ -70,7 +70,7 @@ if (isset($_POST['submit'])) {
 											<div class="col-md-4">
 												<div class="form-group">
 													<label class="control-label">
-														Item Name <span class="symbol required"></span>
+														ITEM NAME <span class="symbol required"></span>
 													</label>
 													<input type="text" class="form-control" id="route" name="item_name" required>
 												</div>
@@ -78,7 +78,7 @@ if (isset($_POST['submit'])) {
 
 											<br>
 											<div class="col-md-4">
-												<input class="btn btn-md btn-warning btn-block" type="submit" name="submit" value="submit">
+												<input class="btn btn-md btn-warning btn-block" type="submit" name="submit" value="SUBMIT">
 											</div>
 
 										</div>
@@ -121,7 +121,8 @@ if (isset($_POST['submit'])) {
                                                 <tr>
                                                     <td style="text-align:center"><?php echo $row['id'] ?></td>
                                                     <td><?php echo $row['item_name'] ?></td>
-                                                    <td>Edit</td>
+                                                    <td style="text-align:center" ;><button type="button" class="btn btn-xs btn-teal editDebitItemBtn" data-toggle="modal" data-target="#debitItemEditModal" id="<?php echo $row['id']; ?>"><i class="fa fa-edit"></i></button>
+                                        			</td>
                                                     
                                                 </tr>
 
@@ -142,7 +143,52 @@ if (isset($_POST['submit'])) {
 				</div>
 			</div>
 			<!-- end: PAGE -->
+<!--Start Modal code for editing Plant information-->
+<div class="">
+    <div class="modal modal-dialog modal-lg fade" id="debitItemEditModal" role="dialog">
 
+        <!-- Modal content-->
+        <div class="">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">UPDATE DEBIT ITEM NAME</h4>
+            </div>
+            <div class="modal-body">
+                <form action="" id="updateItemName">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        ITEM ID <span class="symbol required"></span>
+                                    </label>
+                                    <input type="text" class="form-control" name="itemNameId" id="itemNameId" value="" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        ITEM NAME <span class="symbol required"></span>
+                                    </label>
+                                    <input type="text" class="form-control" name="itemName" id="itemName" value="" required>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                    <input type="submit" value="UPDATE ITEM NAME" class="btn btn-sm btn-success btn-block submitBtn">
+                </form>
+			</div>
+			<div class="loading-img">
+               <img src="img/loading.gif" alt="Plaese Wait">                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--End Modal code for editing Plant information-->
 
 		</div>
 		<!-- end: MAIN CONTAINER -->

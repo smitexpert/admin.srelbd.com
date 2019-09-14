@@ -3,7 +3,7 @@ include('includes/header.php');
 	// $query = "SELECT s.*,d.designation_title FROM tbl_stuff as s,tbl_designation as d
 	//  WHERE s.stuff_designation = d.id AND stuff_status=1 ORDER BY created_at DESC";
 //	$query = "SELECT * FROM user WHERE rule != '1' ORDER BY userId DESC";
-	$query = "SELECT *FROM agent  ORDER BY id ASC";
+	$query = "SELECT *FROM agent";
     $result = $db->link->query($query);
 
     //get current user rule from user table using by employee id
@@ -42,11 +42,11 @@ include('includes/header.php');
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-external-link-square"></i>
-                            STAFF UPDATE WINDOW
+                            AGENT UPDATE WINDOW
                         </div>
 
                         <div class="panel-body">
-                            <table id="userTable" class="display" style="width:100%">
+                            <table id="agentTable" class="display" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>AGENT ID</th>
@@ -55,8 +55,6 @@ include('includes/header.php');
                                         <th>Email</th>
                                         <th>Contact1</th>
                                         <th>Contact2</th>
-                                        <th>assignto</th>
-                                        <th>created_dat</th>
                                         <th>UPDATE</th>
                                     </tr>
                                 </thead>
@@ -72,12 +70,8 @@ include('includes/header.php');
                                         <td><?php echo $row['address'] ?></td>
                                         <td><?php echo $row['email'] ?></td>
                                         <td><?php echo $row['contact1'] ?></td>
-                                        <td><?php echo $row['contact2'] ?></td>
-                                        <td><?php echo $row['assignto'] ?></td>                                        
-                                        <td style="text-align:center" ;><button disabled type="button" class="btn btn-xs btn-teal editStaffBtn" data-toggle="modal" data-target="#staffEditModal" id="<?php echo $row['id']; ?>"><i class="fa fa-edit"></i></button>
-                                        </td>
-                                        
-                                        <td style="text-align:center" ;><button type="button" class="btn btn-xs btn-teal editStaffBtn" data-toggle="modal" data-target="#staffEditModal" id="<?php echo $row['id']; ?>"><i class="fa fa-edit"></i></button>
+                                        <td><?php echo $row['contact2'] ?></td>        
+                                        <td style="text-align:center" ;><button type="button" class="btn btn-xs btn-teal editAgentBtn" data-toggle="modal" data-target="#agentEditModal" id="<?php echo $row['id']; ?>"><i class="fa fa-edit"></i></button>
                                         </td>
                                         
                                     </tr>
@@ -103,71 +97,34 @@ include('includes/header.php');
 <!-- end: PAGE -->
 <!--Start Modal code for editing Plant information-->
 <div class="">
-    <div class="modal modal-dialog modal-lg fade" id="staffEditModal" role="dialog">
+    <div class="modal modal-dialog modal-lg fade" id="agentEditModal" role="dialog">
 
         <!-- Modal content-->
         <div class="">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">UPDATE STAFF INFORMATION</h4>
+                <h4 class="modal-title">UPDATE INFORMATION OF <span id = "agentIdShow"></span></h4>
             </div>
             <div class="modal-body">
-                <form action="" id="updateStaffInformation">
+                <form action="" id="updateAgentInformation">
                     <div class="form-group">
-                        <div class="row">
+                    <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="control-label">
-                                        EMPLOYEE ID <span class="symbol required"></span>
+                                        AGENT ID <span class="symbol required"></span>
                                     </label>
-                                    <input type="text" class="form-control" name="employeeId" id="employeeId" value="" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        EMPLOYEE NAME <span class="symbol required"></span>
-                                    </label>
-                                    <input type="text" class="form-control" name="employeeName" id="employeeName" value="">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        DESIGNATION <span class="symbol required"></span>
-                                    </label>
-                                    <select name="designation" id="designation" class="form-control" required>
-                                        <option value="">Select Manager</option>
-                                        <?php
-                                            while($row = $getDesignation->fetch_assoc()){                                                
-                                                ?>
-                                        <option value="<?php echo $row['ruleId'];?>"><?php echo $row['ruleName'];?></option>
-                                        <?php 
-                                            }  
-                                        ?>
-                                    </select>
-
+                                    <input type="text" class="form-control" name="upAgentId" id="agentId" value="" readonly>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-
+                        <div class="row">                            
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="control-label">
-                                        BRANCH <span class="symbol required"></span>
+                                        AGENT NAME <span class="symbol required"></span>
                                     </label>
-                                    <select name="empBranch" id="empBranch" class="form-control" required>
-                                        <option value="">Select Branch</option>
-                                        <?php
-                                            while($row = $branch->fetch_assoc()){                                                
-                                                ?>
-                                        <option value="<?php echo $row['branch_id'];?>"><?php echo $row['branch_name'];?></option>
-                                        <?php 
-                                            }  
-                                        ?>
-                                    </select>
-
+                                    <input type="text" class="form-control" name="upAgentName" id="agentName" value="">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -175,11 +132,38 @@ include('includes/header.php');
                                     <label class="control-label">
                                         E-MAIL <span class="symbol required"></span>
                                     </label>
-                                    <input type="text" required class="form-control" name="upEmail" id="email">
+                                    <input type="text" class="form-control" name="upAgentEmail" id="agentEmail" value="">
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                            <label class="control-label">ASSIGN TO:<span class="symbol required"></span>
+                                            </label>
+                                            <select name="upAgentAssignTo" id="agentAssignTo" class="form-control selectpicker" data-show-subtext="true" data-live-search="true" required>
+                                                
+                                                <?php 
+                                                    $query2 = "SELECT * FROM user ORDER BY userId ASC";;
+                                                    $selectstuff = $db->link->query($query2);
+                                                    if ($selectstuff) {
+                                                        while ($getstuff=$selectstuff->fetch_assoc()) 
+                                                        { 
+                                                            if(($getstuff['userId'] == '000000') ||  ($getstuff['userId'] == '190402')){
+                                                            continue;
+                                                        }else{
+                                                ?>
+                                                <option value="<?php echo $getstuff['userId']; ?>">
+                                                    <?php echo $getstuff['name']; ?>
+                                                </option>
+                                                <?php }
+                                                        }
+                                                        }
+                                                    
+                                                        else{
+                                                        
+                                                    }
+                                                ?>
 
-
+                                            </select>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4">
@@ -187,7 +171,7 @@ include('includes/header.php');
                                     <label class="control-label">
                                         CONTACT NO-1. <span class="symbol required"></span>
                                     </label>
-                                    <input type="text" required class="form-control" name="upContact1" id="contact1" value="">
+                                    <input type="text" required class="form-control" name="upContact1" id="contact1" value="" disabled>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -211,7 +195,7 @@ include('includes/header.php');
 
                         </div>
                     </div>
-                    <input type="submit" value="UPDATE STAFF INFO" class="btn btn-sm btn-success btn-block">
+                    <input type="submit" value="UPDATE AGENT INFO" class="btn btn-sm btn-success btn-block">
                 </form>
             </div>
             <div class="modal-footer">

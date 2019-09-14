@@ -109,17 +109,17 @@ function getUserName($userId){
         <div class="">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">UPDATE PASSWORD OF <?php echo getUserName($row['userId']); ?></h4>
+                <h4 class="modal-title">UPDATE PASSWORD OF <span id="userIdUpdatePass"></span></h4>
             </div>
             <div class="modal-body">
-                <form action="" id="updateStaffPassword">
+                <form action="" id="updateStaffPassword_all">
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-2"></div>
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="">NEW PASSWORD:<span class="symbol required"></span></label>
-                                    <input type="password" class="form-control" name="newPass" id="newPass" required>
+                                    <input type="password" class="form-control" name="newPass_all" id="newPass_all" required>
                                     <span id="checkNewPass"></span>
                                     <div id="checkMarkNew" style="position: absolute;top: 27px;right: 22px;color: green; display:none"><span class="fa fa-check"></span></div>
                                     <div id="closeMarkNew" style="position: absolute;top: 27px;right: 22px;color: red; display:none"><span class="fa fa-times"></span></div>
@@ -131,8 +131,11 @@ function getUserName($userId){
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="">CONFIRM PASSWORD:<span class="symbol required"></span></label>
-                                    <input type="password" class="form-control" name="confirmPass" id="confirmPass" required>
+                                    <input type="password" class="form-control" name="confirmPass_all" id="confirmPass_all" required>
                                     <div id="checkMarkConfirm" style="position: absolute;top: 27px;right: 22px;color: green; display:none"><span class="fa fa-check"></span></div>
+                                    <div id="closeMarkConfirm" style="position: absolute;top: 27px;right: 22px;color: red; display:none"><span class="fa fa-times"></span></div>
+                                    <span id="checkNewPassConfirm"></span>
+
                                 </div>
                             </div>
                         </div>
@@ -141,10 +144,10 @@ function getUserName($userId){
 
                             </div>
                         </div>
-
+                        <input type="hidden" id="userIdUpdate" name="userIdUpdate">
 
                     </div>
-                    <input type="submit" value="UPDATE PASSWORD" class="btn btn-sm btn-success btn-block">
+                    <input type="submit" id="submit_button" value="UPDATE PASSWORD" class="btn btn-sm btn-success btn-block" disabled>
                 </form>
             </div>
             <div class="modal-footer">

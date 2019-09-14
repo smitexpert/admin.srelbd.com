@@ -43,7 +43,7 @@ if($userStatus == 0){
 
 if(Session::get('role') != 1){
     
-    $getUrl = $_SERVER['REQUEST_URI'];
+    $getUrl = explode('?', $_SERVER['REQUEST_URI'], 2);
 
     $usrMenuId = Session::get('adminId');
     $usrMenuId = strtolower($usrMenuId);
@@ -60,12 +60,12 @@ if(Session::get('role') != 1){
 
     for($i=0; $i<$row_menu[0]; $i++){
         $menuUrl = '/'.$menuSession[$i];
-        if( $menuUrl == $getUrl ){
+        if( $menuUrl == $getUrl[0] ){
             $isUrlActive = true;
         }
     }
 
-    if($getUrl != '/dashboard.php'){
+    if($getUrl[0] != '/dashboard.php'){
         if($isUrlActive != true){
             header("location: dashboard.php");
         }

@@ -3,7 +3,7 @@ include('includes/header.php');
 	// $query = "SELECT s.*,d.designation_title FROM tbl_stuff as s,tbl_designation as d
 	//  WHERE s.stuff_designation = d.id AND stuff_status=1 ORDER BY created_at DESC";
 //	$query = "SELECT * FROM user WHERE rule != '1' ORDER BY userId DESC";
-	$query = "SELECT user.*, user_rule.* FROM user LEFT JOIN user_rule ON user.rule = user_rule.ruleId WHERE rule != '1' ORDER BY userId DESC";
+	$query = "SELECT user.*, user_rule.* FROM user LEFT JOIN user_rule ON user.rule = user_rule.ruleId WHERE rule != '1' AND user.status = '1' ORDER BY userId DESC";
     $result = $db->select($query);
 
     //get current user rule from user table using by employee id

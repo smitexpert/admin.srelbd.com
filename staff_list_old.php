@@ -1,7 +1,9 @@
 <?php 
 include('includes/header.php');
 //	$query = "SELECT * FROM user WHERE rule != '1' AND rule != '2' ORDER BY userId DESC";
-	$query = "SELECT * FROM user WHERE rule != '1' AND rule != '2' AND status = '0' ORDER BY rule ASC";
+    // $query = "SELECT * FROM user WHERE rule != '1' AND rule != '2' AND status = '0' ORDER BY rule ASC";
+    // $query = "SELECT DISTINCT user.*, ex_employee.terminal_date FROM user INNER JOIN ex_employee ON user.userId = ex_employee.userId WHERE rule != '1' AND rule != '2' AND status = '0' ORDER BY rule ASC";
+    $query = "SELECT DISTINCT ex_employee.userId, ex_employee.terminal_date, user.* FROM ex_employee INNER JOIN user ON ex_employee.userId = user.userId WHERE user.rule != '1' AND user.rule != '2' AND user.status = '0' ORDER BY ex_employee.terminal_date DESC";
     $result = $db->select($query);
 
     function getDesignation($dId){
@@ -15,6 +17,12 @@ include('includes/header.php');
         
         return $designation[0];
         
+    }
+    function getMyTime($timeStamp){
+
+        $myDate = date("d-m-Y", $timeStamp);
+
+        return $myDate;
     }
 ?>
 		<!-- start: MAIN CONTAINER -->
@@ -44,7 +52,8 @@ include('includes/header.php');
                                                 <th>Designation</th>
                                                 <th>Email</th>
                                                 <th>Contact</th>
-                                                <th>Date of Joining</th>
+                                                <th>Joining Date</th>
+                                                <th>Release Date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -71,6 +80,7 @@ include('includes/header.php');
                                                     <td><?php echo $row['email']; ?></td>
                                                     <td><?php echo $row['contact1']; ?></td>
                                                     <td><?php echo $row['joining_date']; ?></td>
+                                                    <td><?php echo getMyTime(strtotime($row['terminal_date'])); ?></td>
                                                 </tr>
 
                                                 <?php

@@ -1,7 +1,7 @@
 <?php 
 include('includes/header.php');
 //	$query = "SELECT * FROM user WHERE rule != '1' AND rule != '2' ORDER BY userId DESC";
-	$query = "SELECT * FROM user WHERE rule != '1' AND rule != '2' ORDER BY rule ASC";
+	$query = "SELECT * FROM user WHERE rule != '1' AND rule != '2' AND status = '1' ORDER BY rule ASC";
     $result = $db->select($query);
 
     function getDesignation($dId){

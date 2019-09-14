@@ -417,9 +417,12 @@ if(isset($_POST['userStatusChange'])){
         
         if($statusRow['status'] == 1){
             
-            $updateUserStatusQuery = "UPDATE user SET status='0' WHERE userId='$userId'";
-            
+            $updateUserStatusQuery = "UPDATE user SET status='0' WHERE userId='$userId'";            
             $updateUserStatusResult = $db->update($updateUserStatusQuery);
+
+            //insert into ex-employee table as history
+            $insertExEmployeeTable = "INSERT INTO  ex_employee (userId) VALUES('$userId')";
+            $insert = $db->link->query($insertExEmployeeTable);
             
             if($updateUserStatusResult === TRUE){
                 echo '0';
