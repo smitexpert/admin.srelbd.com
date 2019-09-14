@@ -182,6 +182,27 @@ if($_SERVER['REQUEST_URI']== '/create_staff.php'){
 		        });
 		    });
 
+			$("#usermail").focusout(function(){
+				var employee_email = $(this).val();
+
+				if(employee_email != ""){
+					$.ajax({
+						url:"lib/ajax.php",
+						method:"POST",
+						data:{
+							employeeEmailCheck:employee_email
+						},
+						success:function(status){
+							if(status == 1){
+								alert("Email already Exist");
+								$("#usermail").val("");
+								$("#usermail").focus();
+							}
+						}
+					})
+				}
+			})
+
 		    $("#staff_form").on("submit", function (event) {
 		        event.preventDefault();
 
@@ -195,11 +216,12 @@ if($_SERVER['REQUEST_URI']== '/create_staff.php'){
 		                data: $('#staff_form').serialize(),
 		                success: function (data) {
 		                    if (data == 'donedone') {
-		                        $(".loading-img").css("display", "none");
 		                        location.reload();
 		                    } else {
 		                        alert("Email already exist");
 		                    }
+							
+							$(".loading-img").css("display", "none");
 		                }
 		            });
 		        }

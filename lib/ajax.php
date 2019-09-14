@@ -894,6 +894,22 @@ if(isset($_POST['joinDateS'])){
 //    echo ++$employeeId;
 }
 
+if(isset($_POST['employeeEmailCheck'])){
+    $employeeEmailCheck = $_POST['employeeEmailCheck'];
+
+    //check email in user database
+    $emailSQl = "SELECT *FROM user WHERE email = '$employeeEmailCheck'";
+    $emailSQl1 = $db->link->query($emailSQl);
+
+    if($emailSQl1->num_rows>0){
+        echo 1;
+    }else{
+        echo 0;
+    }
+
+    // echo $employeeEmailCheck;
+}
+
 if(isset($_POST['districtIdForPoliceStation'])){
     $districtId = $_POST['districtIdForPoliceStation'];
     
